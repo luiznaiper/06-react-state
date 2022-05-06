@@ -38,7 +38,7 @@ function UseState({ name }){
                 <h2>Delete  { name }</h2>
                 <p>Please, wirte your security code</p>
 
-                { error && (
+                { (error && !loading) && (
                     <p>Error: your code is wrong</p>
                 ) }
                 { loading &&(
@@ -49,11 +49,15 @@ function UseState({ name }){
                      placeholder="Security Code"
                      value={value}
                      onChange={(event) => {
-                        setValue(event.target.value)                
+                        setValue(event.target.value)       
+                       // if (error) setError(false)         
                      }}
                 />
                 <button
-                    onClick={() => setLoading(true)}
+                    onClick={() =>  {
+                        setLoading(true)
+                        setError(false)
+                    }}
                 >
                     Submit
                 </button>
