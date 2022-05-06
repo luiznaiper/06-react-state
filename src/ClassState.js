@@ -1,10 +1,13 @@
 import React from "react";
 import { Loading } from './Loading'
 
+const SECURITY_CODE = 'paradigm'
+
 class ClassState extends React.Component{
     constructor(props){
         super(props)
         this.state = {
+            value: '',
             error: false,
             loading: false,
         }
@@ -24,8 +27,12 @@ class ClassState extends React.Component{
         if(this.state.loading){
             setTimeout(()=> { 
                 console.log('Validating setTimeout')
-    
-                this.setState({ loading: false })
+                
+                if(SECURITY_CODE === this.state.value){
+                    this.setState({ error: false, loading: false })
+                } else {
+                    this.setState({ error: true, loading: false })
+                }
                 
                 console.log('Endind setTimeout')
             }, 3000)
@@ -38,7 +45,7 @@ class ClassState extends React.Component{
                 <h2>Delete { this.props.name }</h2>
                 <p>Please, wirte your security code</p>
 
-                {this.state.error && (
+                {(this.state.error && !this.state.loading) && (
                     <p>Error: your code is wrong</p>
                 )}
 
@@ -47,7 +54,13 @@ class ClassState extends React.Component{
                     <Loading/>
                 )}
 
-                <input placeholder="Security"/>
+                <input
+                    placeholder="Security"
+                    value={this.state.value}
+                    onChange={(event) => {
+                        this.setState({ value: event.target.value })
+                    }}
+                />
                 <button
                     onClick={()=> this.setState({ loading:true })}
                 > 
