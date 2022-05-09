@@ -10,9 +10,56 @@ function UseState({ name }){
         confirmed: false,
         deleted: false,
     })
- 
-    console.log(state.value)
 
+    const onConfirm = () => {
+        setState({
+            ...state,
+            loading: false,
+            error: false,
+            confirmed: true,
+        })
+    }
+
+    const onChangeInput = (newValue) =>{
+        setState({
+            ...state,
+            value:newValue,
+        })
+    }
+
+    const onError = () =>{
+        setState({
+            ...state,
+            error: true,
+            loading: false,
+        })
+    }
+
+    const onCheck = ()=>{
+        setState({
+            ...state,
+            loading: true,
+        })
+    }
+
+    const onDelete =() => {
+        setState({
+            ...state,
+            deleted: true
+        })
+    }
+
+    const onReset = () => {
+        setState({
+            ...state,
+            confirmed: false,
+            deleted: false,
+            value: ''
+        })
+    }
+
+    console.log(state.value)
+    
     React.useEffect(() => {
       console.log('Starting effect')
 
@@ -21,24 +68,11 @@ function UseState({ name }){
                 console.log('Validating setTimeout')
 
                 if(state.value === SECURITY_CODE){
-                    setState({
-                        ...state,
-                        loading: false,
-                        error: false,
-                        confirmed: true,
-                    })
-                    // setLoading(false)
+                    onConfirm()
                 } else{
-                    setState({
-                        ...state,
-                        error: true,
-                        loading: false,
-                    })
-                    // setLoading(false)
-                    // setError(true)
-                }
-                
-                
+                    onError()
+                }                
+
                 console.log('Endind setTimeout')
             }, 3000)
         }
@@ -65,18 +99,12 @@ function UseState({ name }){
                          placeholder="Security Code"
                          value={state.value}
                          onChange={(event) => {
-                            setState({
-                                ...state,
-                                value: event.target.value,
-                            })
+                            onChangeInput(event.target.value)
                           }}
                     />
                     <button
                         onClick={() =>  {
-                            setState({
-                                ...state,
-                                loading: true,
-                            })
+                            onCheck()
                         }}
                     >
                         Submit
@@ -89,21 +117,14 @@ function UseState({ name }){
             <p>Are you sure you want to delete¡</p>
             <button
                 onClick={()=> {
-                    setState({
-                        ...state,
-                        deleted: true
-                    })
+                    onDelete()
                 }}
             >
                 Yes, delete
             </button>
             <button
                 onClick={()=> {
-                    setState({
-                        ...state,
-                        confirmed: false,
-                        value: ''
-                    })
+                    onReset()
                 }}
             >
                 No, don't delete
@@ -117,12 +138,7 @@ function UseState({ name }){
             <p>Deleted</p>
             <button
                 onClick={()=> {
-                    setState({
-                        ...state,
-                        confirmed: false,
-                        deleted: false,
-                        value: ''
-                    })
+                    onReset()
                 }}
             >
                 Reset please
