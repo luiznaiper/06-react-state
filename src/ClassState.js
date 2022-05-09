@@ -49,7 +49,6 @@ class ClassState extends React.Component{
                     <p>Error: your code is wrong</p>
                 )}
 
-
                 {this.state.loading && (
                     <Loading/>
                 )}
@@ -68,7 +67,7 @@ class ClassState extends React.Component{
                 </button>
             </div>
         )
-    }
+    } 
 }
 
 export { ClassState }
