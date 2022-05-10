@@ -1,5 +1,6 @@
 import React from "react";
 import { Loading } from './Loading'
+import { Confirm } from "./Confirm";
 
 const SECURITY_CODE = 'paradigm'
 
@@ -10,6 +11,7 @@ class ClassState extends React.Component{
             value: '',
             error: false,
             loading: false,
+            confirm: false,
         }
     }
     
@@ -29,9 +31,9 @@ class ClassState extends React.Component{
                 console.log('Validating setTimeout')
                 
                 if(SECURITY_CODE === this.state.value){
-                    this.setState({ error: false, loading: false })
+                    this.setState({ error: false, loading: false, confirm: true })
                 } else {
-                    this.setState({ error: true, loading: false })
+                    this.setState({ error: true, loading: false, confirm: false })   
                 }
                 
                 console.log('Endind setTimeout')
@@ -51,6 +53,9 @@ class ClassState extends React.Component{
 
                 {this.state.loading && (
                     <Loading/>
+                )}
+                 {this.state.confirm && (
+                    <Confirm/>
                 )}
 
                 <input
